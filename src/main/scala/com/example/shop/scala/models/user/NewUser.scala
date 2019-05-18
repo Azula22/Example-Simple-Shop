@@ -1,4 +1,5 @@
-package com.example.shop.scala.models
+package com.example.shop.scala.models.user
+
 import java.util.UUID
 
 import spray.json._
