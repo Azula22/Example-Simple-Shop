@@ -2,7 +2,7 @@ package com.example.shop.scala.json
 
 import java.util.UUID
 
-import spray.json.{DefaultJsonProtocol, JsString, JsValue, RootJsonFormat}
+import spray.json._
 
 trait UUIDFormatter {
 
@@ -14,5 +14,3 @@ trait UUIDFormatter {
   }
 
 }
-
-object UUIDFormatter extends UUIDFormatter
