@@ -63,7 +63,7 @@ class ProductController(productRepo: ProductRepo) extends Directives
   }
 
   def routes = pathPrefix("user") {
-    create ~ getPaginatedProducts
+    create ~ getPaginatedProducts ~ putInCart ~ getFinalCartList ~ buy
   }
 
   private def purchase[T](as: ActorSystem, userId: String, onSuccess: ActorRef => T, onNotFound: => T): Future[T] = {
