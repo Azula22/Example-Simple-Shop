@@ -10,12 +10,16 @@ class UserController(userRepo: UserRepo) extends Directives
   with NewUserFormats
   with UserFormats {
 
-  def createUser = (post & path("user") & entity(as[NewUser])) { newUser =>
+  def createUser = (post & pathEndOrSingleSlash & entity(as[NewUser])) { newUser =>
     complete(userRepo.add(newUser.complete))
   }
 
   def getUser = (get & path(Segment)) { email =>
     complete(userRepo.get(email))
+  }
+
+  def routes = pathPrefix("user"){
+    createUser ~ getUser
   }
 
 }
