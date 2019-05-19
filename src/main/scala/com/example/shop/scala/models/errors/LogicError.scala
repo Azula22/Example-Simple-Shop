@@ -13,3 +13,4 @@ case class NotEnoughOfProduct(id: UUID, amount: Int) extends LogicError {
   def msg = s"Max number of product with $id to buy is $amount"
 }
 case class NoUser(email: String) extends LogicError { def msg = s"User with email $email not found"}
+case class NoItemsToBuy(userId: String) extends LogicError { def msg = s"No items in a cart to buy for $userId"}
