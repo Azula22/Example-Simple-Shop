@@ -1,9 +1,9 @@
 package com.example.shop.scala.controllers
 
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import akka.http.scaladsl.server.Directives
 import com.example.shop.scala.json.{NewUserFormats, UserFormats}
 import com.example.shop.scala.models.user.NewUser
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import com.example.shop.scala.repositories.UserRepo
 
 class UserController(userRepo: UserRepo) extends Directives

@@ -27,7 +27,7 @@ class ProductRepo {
       .fold[Future[SProduct]](Future.failed(NoProduct(id)))(Future.successful)
   }
 
-  def get(limit: Int, offset: Int, onlyAvailable: Boolean = true): Future[List[SProduct]] = {
+  def get(limit: Int, offset: Int, onlyAvailable: Boolean): Future[List[SProduct]] = {
     val products = if (onlyAvailable) _products.values.filter(_.isAvailable) else _products.values
     Future.successful(
       Try(products.sliding(limit, limit).toList(offset).toList)
