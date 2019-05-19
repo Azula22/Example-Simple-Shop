@@ -2,7 +2,7 @@ package com.example.shop.scala.repositories
 
 import java.util.UUID
 
-import com.example.shop.scala.models.errors.NoProduct
+import com.example.shop.scala.models.errors.{NoProduct, NotEnoughOfProduct}
 import com.example.shop.scala.models.product.SProduct
 
 import scala.collection.mutable
@@ -18,17 +18,30 @@ class ProductRepo {
     Future.successful(p)
   }
 
-  def get(limit: Int, offset: Int, onlyAvailable: Boolean = true): List[SProduct] = {
-    val products = if (onlyAvailable) _products.values.filter(_.isAvailable) else _products.values
-    Try(products.sliding(limit, limit).toList(offset).toList).getOrElse(Nil)
+  def get(id: UUID, onlyAvailable: Boolean = true): Future[SProduct] = {
+    val condition: SProduct => Boolean = { product =>
+      product.id == id && (if (onlyAvailable) product.isAvailable else true)
+    }
+    _products.values
+      .find(condition)
+      .fold[Future[SProduct]](Future.failed(NoProduct(id)))(Future.successful)
   }
 
-  def increment(id: UUID, amount: Int = 1): Future[SProduct] = {
+  def get(limit: Int, offset: Int, onlyAvailable: Boolean = true): Future[List[SProduct]] = {
+    val products = if (onlyAvailable) _products.values.filter(_.isAvailable) else _products.values
+    Future.successful(
+      Try(products.sliding(limit, limit).toList(offset).toList)
+        .getOrElse(Nil)
+    )
+  }
+
+  def take(id: UUID, amount: Int = 1): Future[SProduct] = {
     _products.get(id) match {
-      case Some(el) =>
-        val updated = el.copy(amount = el.amount + amount)
+      case Some(el) if el.amount >= amount =>
+        val updated = el.copy(amount = el.amount - amount)
         _products.update(id, updated)
         Future.successful(updated)
+      case Some(el) => Future.failed(NotEnoughOfProduct(el.id, el.amount))
       case None => Future.failed(NoProduct(id))
     }
   }
