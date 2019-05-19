@@ -4,13 +4,13 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
-import com.example.shop.scala.controllers.{ProductController, UserController}
+import com.example.shop.scala.controllers.{Controllers, ProductController, UserController}
 import com.example.shop.scala.repositories.{ProductRepo, UserRepo}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Try
 
-object Main {
+object Main extends Controllers {
 
   //host port
   def main(args: Array[String]): Unit = {
@@ -21,14 +21,7 @@ object Main {
     implicit val as: ActorSystem = ActorSystem()
     implicit val mat: ActorMaterializer = ActorMaterializer()
 
-    val productRepo = new ProductRepo()
-    val userRepo = new UserRepo()
-    val productController = new ProductController(productRepo)
-    val userController = new UserController(userRepo)
-
-    val routeSummary = productController.routes ~ userController.routes
-
-    Http(as).bindAndHandle(routeSummary, host, port)
+    Http(as).bindAndHandle(routes, host, port)
 
   }
 
