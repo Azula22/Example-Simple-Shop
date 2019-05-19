@@ -56,7 +56,7 @@ class ProductController(productRepo: ProductRepo) extends Directives
 
   def buy = (put & path("buy") & entity(as[FinishPurchase]) & extractActorSystem ) { case (FinishPurchase(userId), as) =>
     val result = purchase(as, userId,
-      actor => (actor ? PurchaseActor.Buy).mapTo[UUID],
+      actor => (actor ? PurchaseActor.Buy).mapTo[UUID].map(id => Map("id" -> id)),
       Future.failed(NoItemsToBuy(userId))
     ).flatten
     complete(result)

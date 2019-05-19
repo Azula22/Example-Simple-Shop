@@ -95,7 +95,7 @@ class ProductControllerSpec extends Controllers
 
       Put("/product/buy", FinishPurchase(_userId.toString)) ~> routes ~> check {
         response.status shouldBe OK
-        responseAs[UUID]
+        responseAs[Map[String, String]].get("id").isDefined shouldBe true
       }
 
     }
