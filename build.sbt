@@ -22,3 +22,6 @@ lazy val tests = Seq(
 ).map(_ % Test)
 
 libraryDependencies ++= akka ++ tests
+
+assemblyJarName in assembly := "app.jar"
+test in assembly := {}
