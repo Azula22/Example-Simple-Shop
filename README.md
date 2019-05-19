@@ -1,12 +1,12 @@
-This is a dummy version of online shop.
+**This is a dummy version of online shop.**
 
 To start the app run ./run.sh script
 
 This program has few endpoints:
 
-1. Create User
+**1. Create User**
 
-Request: 
+_Request:_ 
 
 ``POST /user``
 ```json
@@ -15,7 +15,8 @@ Request:
     "bankAccount": "account"
 }
 ```
-Response: 
+_Response:_ 
+
 ```json
 {
      "id": "61e06f06-2a2e-42b6-817f-7f7f31d14c0a",
@@ -23,13 +24,14 @@ Response:
      "bankAccount": "account"
 }
 ```
-2. Get User
+**2. Get User**
 
-Request: 
+_Request:_ 
 
 ``GET /user/:email``
 
-Response: 
+_Response:_
+ 
 ```json
 {
      "id": "61e06f06-2a2e-42b6-817f-7f7f31d14c0a",
@@ -38,9 +40,9 @@ Response:
 }
 ```
 
-3. Create product
+**3. Create product**
 
-Request:
+_Request:_
 
 ``POST /product``
 ```json
@@ -51,7 +53,7 @@ Request:
 }
 ```
 
-Response:
+_Response:_
 
 ```json
 {
@@ -62,13 +64,13 @@ Response:
 }
 ```
 
-4. Get products
+**4. Get products**
 
-Request:
+_Request:_
 
 ``GET /product?limit=10&offset=1``
 
-Response: 
+_Response:_ 
 
 ```json
 [
@@ -87,9 +89,9 @@ Response:
 ]
 ```
 
-5. Put a product in a cart
+**5. Put a product in a cart**
 
-Request:
+_Request:_
 
 ``PUT /product``
 ```json
@@ -100,15 +102,15 @@ Request:
 }
 ```
 
-Response is empty
+_Response is empty_
 
-6. Get a final cart list
+**6. Get a final cart list**
 
-Request:
+_Request:_
 
 ``GET "/product/:userId``
 
-Response:
+_Response:_
 
 ```json
 [
@@ -121,9 +123,9 @@ Response:
 ]
 ```
 
-7. Buy everything from a cart
+**7. Buy everything from a cart**
 
-Request:
+_Request:_
 
 ``PUT /product/buy``
 ```json
@@ -132,7 +134,7 @@ Request:
 }
 ```
 
-Response: purchase id
+_Response: purchase id_
 
 ```json
 {
