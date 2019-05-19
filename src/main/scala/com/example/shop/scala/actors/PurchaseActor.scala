@@ -25,7 +25,7 @@ class PurchaseActor(productRepository: ProductRepo) extends Actor with Timers {
         p <- productRepository.get(id)
         _ <- productRepository.take(id, amount)
       } yield self ! Put(p.copy(amount = amount))
-      mayBeError.recover{ case err => println(err.getMessage)}
+      mayBeError.recover { case err => println(err.getMessage) }
 
     case Put(p) if _products.get(p.id).isDefined =>
       _products.update(p.id, _products(p.id).increment(p.amount))
@@ -33,18 +33,7 @@ class PurchaseActor(productRepository: ProductRepo) extends Actor with Timers {
     case Put(p) =>
       _products.update(p.id, p)
 
-    case Increment(id, amount) if _products.get(id).isDefined =>
-      productRepository.take(id, amount).map { _ =>
-        val pToAdd = _products(id).copy(amount = amount)
-        self ! Put(pToAdd)
-      }.recover { case err => println(err.getMessage) }
-
-    case Increment(id, amount) => self ! Add(id, amount)
-
-    case Delete(id) =>
-      _products - id
-
-    case GetFinalList => sender() ! _products.values
+    case GetFinalList => sender() ! _products.values.toList
 
     case Buy =>
       val purchaseId = UUID.randomUUID()
@@ -70,9 +59,7 @@ object PurchaseActor {
 
   case class Add(id: UUID, amount: Int = 1)
   private case class Put(p: SProduct)
-  case class Increment(id: UUID, amount: Int)
-  case class Delete(id: UUID)
-  case class GetFinalList()
+  case object GetFinalList
   case object Buy
 
 }
