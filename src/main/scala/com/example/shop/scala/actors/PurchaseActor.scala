@@ -50,6 +50,7 @@ class PurchaseActor(productRepository: ProductRepo) extends Actor with Timers {
       val purchaseId = UUID.randomUUID()
       // should save in purchase repo here
       sender() ! purchaseId
+      self ! PoisonPill
 
   }
 
