@@ -5,6 +5,6 @@ import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 trait NewProductFormats extends DefaultJsonProtocol with UUIDFormatter {
 
-  implicit val productFormat: RootJsonFormat[NewProduct] = jsonFormat2(NewProduct.apply)
+  implicit val productFormat: RootJsonFormat[NewProduct] = jsonFormat3(NewProduct.apply)
 
 }
